@@ -1,7 +1,6 @@
-import app from "./server.js";
+import Server from "./server.js";
 
-const port = 3000;
+const port = 8000;
 
-app.listen(port, () => {
-  console.log(`El servidor está escuchando en http://localhost:${port}`);
-});
+const server = new Server();
+server.listen(port);

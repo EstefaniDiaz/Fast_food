@@ -1,11 +1,14 @@
 import express from 'express';
-const router = express.Router();
 
+class IndexController {
+  constructor() {
+    this.router = express.Router();
+    this.router.get('/', this.getIndex);
+  }
 
-router.get('/', async(req,res) => {
+  getIndex(req, res) {
     res.render('index');
-   
+  }
+}
 
-});
-
-export default router;
+export default IndexController;

@@ -4,35 +4,61 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import exphbs from 'express-handlebars';
 import path from 'path';
-import indexRoutes from "./controller/index.js";
+import IndexController from "./controller/index.js";
+import APIConnection from "./model/conexion_API.js";
+import APIController from "./controller/API_controller.js";
 
-const app = express();
+class Server {
+  constructor() {
+    this.app = express();
+    this.setup();
+    this.middlewares();
+    this.routes();
+    this.errorHandler();
+  }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-app.use(express.static(path.join(__dirname, 'public')));
+  setup() {
+    const __filename = fileURLToPath(import.meta.url);
+    this.__dirname = dirname(__filename);
+    this.app.use(express.static(path.join(this.__dirname, 'public')));
 
-// Middlewares
-app.use(morgan("dev"));
-app.use(express.json());
-
-//setting
-app.set('views',path.join(__dirname, 'views'))// les dice donde se encuentra la carpeta views
-app.engine('.hbs', exphbs.engine({
-        defaultLayout: 'main',
-        layoutsDir: path.join(app.get('views'),'layouts'),
-        extname : '.hbs',
-    
+    this.app.set('views', path.join(this.__dirname, 'views'));
+    this.app.engine('.hbs', exphbs.engine({
+      defaultLayout: 'main',
+      layoutsDir: path.join(this.app.get('views'), 'layouts'),
+      extname: '.hbs',
     }));
-app.set('view engine', '.hbs');
+    this.app.set('view engine', '.hbs');
 
+    // Llamada  de singleton
+    const connection = APIConnection.getInstance("http://localhost:3000/recetas");
+    connection.connect();
 
-// Routes
-app.use('/',indexRoutes);
+    const apiController = new APIController('http://localhost:3000/recetas');
+    apiController.getData();
+  }
 
+  middlewares() {
+    this.app.use(morgan("dev"));
+    this.app.use(express.json());
+  }
 
-app.use((req, res, next) => {
-  res.status(404).json({ message: "Not found" });
-});
+  routes() {
+    const indexController = new IndexController();
+    this.app.use('/', indexController.router);
+  }
 
-export default app;
+  errorHandler() {
+    this.app.use((req, res, next) => {
+      res.status(404).json({ message: "Not found" });
+    });
+  }
+
+  listen(port) {
+    this.app.listen(port, () => {
+      console.log(`El servidor está escuchando en http://localhost:${port}`);
+    });
+  }
+}
+
+export default Server;
