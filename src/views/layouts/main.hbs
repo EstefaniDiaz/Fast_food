@@ -28,6 +28,22 @@
       <div class = "meal-result">
         <h2 class = "title">Your Search Results:</h2>
         <div id= "meal">
+
+          {{#each meals}}
+          <div class="meal-item" data-id="{{this.idMeal}}">
+            <div class="meal-img">
+              <img src="{{this.strMealThumb}}" alt="food">
+            </div>
+            <div class="meal-name">
+              <h3>{{this.strMeal}}</h3>
+              <a href="#" class="recipe-btn">Get Recipe</a>
+            </div>
+          </div>
+          {{/each}}
+          {{#unless meals}}
+          <p class="notFound">Sorry, we didn't find any meal!</p>
+          {{/unless}}
+          
           <!-- meal item -->
           <!-- <div class = "meal-item">
             <div class = "meal-img">

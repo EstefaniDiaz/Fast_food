@@ -5,7 +5,8 @@ import { dirname } from 'path';
 import exphbs from 'express-handlebars';
 import path from 'path';
 import IndexController from "./controller/index.js";
-import APIConnection from "./model/conexion_API.js";
+import ViewsController  from './controller/views_controller.js'
+import RecetaRouter from './model/RecetaRouter.js';
 import APIController from "./controller/API_controller.js";
 
 class Server {
@@ -29,13 +30,22 @@ class Server {
       extname: '.hbs',
     }));
     this.app.set('view engine', '.hbs');
+    
+    this.recetaModel = {}; // Aquí puedes definir tu objeto recetaModel o asignar los datos correspondientes
+    this.url = 'https://edutroy.github.io/andean_foods/andean_foods.json'; // Aquí puedes establecer la URL correspondiente
 
+
+ /*    const recetaRouter= new RecetaRouter();
     // Llamada  de singleton
-    const connection = APIConnection.getInstance("http://localhost:3000/recetas");
-    connection.connect();
+    const apiController = new APIController(fetch.bind(global), recetaRouter.recetaController); */
 
-    const apiController = new APIController('http://localhost:3000/recetas');
+    const apiController = new APIController();
+    const url = 'https://edutroy.github.io/andean_foods/andean_foods.json';
+    apiController.setURL(url);
     apiController.getData();
+    apiController.getbyid(1);
+    apiController.getByIngredientes("Sal");
+    //this.viewsController = new ViewsController();
   }
 
   middlewares() {
@@ -44,9 +54,12 @@ class Server {
   }
 
   routes() {
+   /*  const indexController = new IndexController();
+    this.app.use('/', indexController.router); */
     const indexController = new IndexController();
+    const recetaRouter = new RecetaRouter({recetaModel:this.recetaModel, url:this.url});
     this.app.use('/', indexController.router);
-  }
+    this.app.use('/recetas',recetaRouter.router);  }
 
   errorHandler() {
     this.app.use((req, res, next) => {
