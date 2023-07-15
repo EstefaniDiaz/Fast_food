@@ -18,7 +18,7 @@ class APIController {
       return fetch(url)
         .then(response => {
           console.log('Conexión a la API exitosa');
-          response.json();})
+          return response.json();})
         .catch(error => {
           throw new Error(`Error al obtener los datos de la API: ${error.message}`);
         });
