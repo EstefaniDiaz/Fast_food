@@ -4,6 +4,7 @@ class APIController {
       if (APIController.instance) {
         return APIController.instance;
       }
+      this.url = null; // Asegúrate de inicializar la URL en null
       APIController.instance = this;
     } 
     
@@ -14,8 +15,8 @@ class APIController {
       this.id=id;
     }
   
-    fetchData(url) {
-      return fetch(url)
+    fetchData() {
+      return fetch(this.url)
         .then(response => {
           console.log('Conexión a la API exitosa');
           return response.json();})
@@ -29,6 +30,7 @@ class APIController {
       const response = await fetch(this.url);
       const data = await response.json();
       console.log(data); 
+      return data;
     } catch (error) {
       console.log('Error:', error);
     }

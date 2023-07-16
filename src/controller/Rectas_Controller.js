@@ -16,7 +16,7 @@ class RecetasController {
   }
 
   async getRecetaById(req, res) {
-    const id = req.params.id;
+    const id = parseInt(req.params.id);;
     try {
       const data = await this.apiController.fetchData(this.apiController.url);
       const receta = data.comidas.find((receta) => receta.id === id);

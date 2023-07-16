@@ -5,7 +5,7 @@ class RecetaRouter {
   constructor({ recetaModel, url }) {
     this.recetaModel = recetaModel;
     this.url = url;
-    this.recetasController = new RecetasController(this.url);
+    this.recetasController = new RecetasController(this.recetaModel,this.url);
     this.router = express.Router();
     this.setupRoutes();
   }
