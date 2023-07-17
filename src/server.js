@@ -5,7 +5,7 @@ import { dirname } from 'path';
 import exphbs from 'express-handlebars';
 import path from 'path';
 import IndexController from "./controller/index.js";
-import ViewsController  from './controller/views_controller.js'
+
 import RecetaRouter from './model/RecetaRouter.js';
 import APIController from "./controller/API_controller.js";
 import RecetasController from "./controller/Rectas_Controller.js";
@@ -64,8 +64,8 @@ this.recetasController = recetasController;
   routes() {
    /*  const indexController = new IndexController();
     this.app.use('/', indexController.router); */
+    
     const indexController = new IndexController();
-
     const recetaRouter = new RecetaRouter({recetaModel:this.recetaModel, url:this.url});
     this.app.use('/', indexController.router);
     this.app.use('/recetas', recetaRouter.router);

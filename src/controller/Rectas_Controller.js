@@ -5,7 +5,7 @@ class RecetasController {
     this.apiController = new APIController();
   }
 
-  async getRecetas(req, res) {
+ /*  async getRecetas(req, res) {
     try {
       const data = await this.apiController.fetchData(this.apiController.url);
       res.render('recetas', { meals: data.comidas });
@@ -13,20 +13,27 @@ class RecetasController {
       res.status(500).json({ message: 'Error al obtener las recetas' });
       console.log(error);
     }
-  }
+  } */
 
   async getRecetaById(req, res) {
-    const id = parseInt(req.params.id);;
+    //const id = parseInt(req.params.id);
+    const ingredient ="Sal";
     try {
       const data = await this.apiController.fetchData(this.apiController.url);
-      const receta = data.comidas.find((receta) => receta.id === id);
-      if (receta) {
-        res.render('receta', { receta });
+      const comidasConIngrediente = data.comidas.filter(comida =>
+        comida.ingredientes.includes(ingredient)
+      );
+      
+      if (comidasConIngrediente.length > 0) {
+        res.render('recetas', { comidasConIngrediente });
+        console.log("me quede en 1");
       } else {
-        res.status(404).json({ message: 'Receta no encontrada' });
+        res.status(404).json({ message: `El ingrediente "${ingredient}" no se encuentra en ninguna comida.` });
+        console.log("me quede en 2");
       }
     } catch (error) {
-      res.status(500).json({ message: 'Error al obtener la receta' });
+      res.status(500).json({ message: 'Error:', error });
+      consolge.log("fregaste estas en error");
     }
   }
 }
