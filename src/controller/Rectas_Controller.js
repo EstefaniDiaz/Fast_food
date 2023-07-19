@@ -5,7 +5,7 @@ class RecetasController {
     this.apiController = new APIController();
   }
 
- /*  async getRecetas(req, res) {
+   async getRecetas(req, res) {
     try {
       
       const ingredientexinput = req.body.ingredientexinput;
@@ -36,7 +36,7 @@ class RecetasController {
       res.status(500).json({ message: "Error al obtener las recetas" });
       console.log(error);
     }
-  } */
+  } 
 
   /* async getRecetaById(req, res) {
     const id = parseInt(req.params.id);
