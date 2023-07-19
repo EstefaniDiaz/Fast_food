@@ -11,8 +11,10 @@ class RecetaRouter {
   }
 
   setupRoutes() {
-    this.router.get('/', this.recetasController.getRecetas.bind(this.recetasController));
-    this.router.get('/:id', this.recetasController.getRecetaById.bind(this.recetasController));
+    
+   // this.router.get('/:id', this.recetasController.getRecetaById.bind(this.recetasController));
+    //this.router.post('/', this.recetasController.getRecetas.bind(this.recetasController));
+    this.router.post('/', this.recetasController.getRecetas.bind(this.recetasController));
   }
 }
 
