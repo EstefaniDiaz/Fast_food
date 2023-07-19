@@ -67,8 +67,8 @@ this.recetasController = recetasController;
   routes() {
    /*  const indexController = new IndexController();
     this.app.use('/', indexController.router); */
+    
     const indexController = new IndexController();
-
     const recetaRouter = new RecetaRouter({recetaModel:this.recetaModel, url:this.url});
     this.app.use('/', indexController.router);
     this.app.use('/recetas', recetaRouter.router);
