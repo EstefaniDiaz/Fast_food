@@ -15,6 +15,7 @@ class RecetaRouter {
    // this.router.get('/:id', this.recetasController.getRecetaById.bind(this.recetasController));
     //this.router.post('/', this.recetasController.getRecetas.bind(this.recetasController));
     this.router.post('/', this.recetasController.getRecetas.bind(this.recetasController));
+    this.router.get('/details/:id', this.recetasController.showRecipeDetails.bind(this.recetasController));
   }
 }
 
