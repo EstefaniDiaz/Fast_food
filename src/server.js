@@ -7,9 +7,9 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import IndexController from "./controller/index.js";
 //import ViewsController  from './controller/views_controller.js'
-import RecetaRouter from './model/RecetaRouter.js';
-import APIController from "./controller/API_controller.js";
-import RecetasController from "./controller/Rectas_Controller.js";
+import RecetaRouter from './controller/RecetaRouter.js';
+import APIController from "./model/API_controller.js";
+import RecetasController from "./model/Rectas_Controller.js";
 
 class Server {
   constructor() {
@@ -29,6 +29,7 @@ class Server {
     this.app.engine('.hbs', exphbs.engine({
       defaultLayout: 'main',
       layoutsDir: path.join(this.app.get('views'), 'layouts'),
+      partialsDir: path.join(this.app.get('views'), 'partials'),
       extname: '.hbs',
     }));
     this.app.set('view engine', '.hbs');
